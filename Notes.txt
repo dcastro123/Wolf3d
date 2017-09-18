@@ -1,0 +1,6 @@
+TO DO before 9/18/17:
+1. Figure out how maps should be created. custom or preset?????
+2. Figure out how to parse and free at the same time (take fdf code????)
+    - Write parser
+3. read more tutorials on ray casting
+4. write main, write controls, write basic drawing algorithm to draw start of maze

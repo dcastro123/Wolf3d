@@ -6,7 +6,7 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 20:43:17 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/18 02:06:34 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/18 02:20:27 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,29 @@ int	mouse_hooks(t_env *e, int button, int x, int y)
 
 }
 
-int	parse_file(t_env *e, char *s)
+int	check_map(t_env *e, int fd)
+{
+
+
+
+
+
+
+
+
+}
+
+int	check_file(t_env *e, char *s)
 {
 	int	fd;
-	char *line;
 
 	if ((fd = open(s, O_RDONLY)) < 0)
 		ft_error("Unable to open\n");
-	line = NULL;
-	while (get_next_line(fd, &line) > 0)
-	{
-
-	}
+	if (!s)
+		ft_error("No argument passed");
+	if (!check_map(e,fd))
+		ft_error("Invalid Map");
+	return (1);
 }
 
 int	main(int ac, char **av)

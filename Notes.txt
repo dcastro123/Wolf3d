@@ -1,5 +1,5 @@
 TO DO before 9/18/17:
-1. Figure out how maps should be created. custom or preset?????
+1. Figure out how maps should be created. custom or preset????? (DONE)
 2. Figure out how to parse and free at the same time (take fdf code????)
     - Write parser
 3. read more tutorials on ray casting

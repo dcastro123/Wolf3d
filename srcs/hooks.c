@@ -12,12 +12,6 @@
 
 #include "../includes/wolf3d.h"
 
-int 	close_window_hook(t_env *e)
-{
-	mlx_destroy_window(e->mlx, e->win);
-	exit(0);
-}
-
 int 	calc_move(t_env *e)
 {
 	if (e->up == 1)
@@ -83,4 +77,19 @@ int 	krelease_hook(int keycode, t_env *e)
 		e->right = 0;
 	else if (keycode == K_ESC)
 		exit(0);
+}
+
+int	key_press_hooks(int keycode, t_env *e)
+{
+	if (keycode == K_UP)
+		e->up = 1;
+	else if (keycode == K_DWN)
+		e->down = 1;
+	else if (keycode == K_LFT)
+		e->left = 1;
+	else if (keycode == K_RGHT)
+		e->right = 1;
+	else if (keycode == K_ESC)
+		exit(0);
+	return (0);
 }

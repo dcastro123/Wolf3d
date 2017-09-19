@@ -6,7 +6,7 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 20:44:17 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/17 21:20:34 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/18 18:39:05 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,32 @@
 # include <stdint.h>
 # include <unistd.h>
 # include "../libft/inc/libft.h"
-# include "../minilibx_macos/mlx.h"
+# include "../resources/mlx.h"
 # include <pthread.h>
 # include <fcntl.h>
+# include <stdio.h>
 
-typedef struct 	s_map
-{
+# define WINDOW_W 512
+# define WINDOW_H 384
 
-
-
-
-
-
-
-}				t_map;
-
-typedef struct 	s_env
-{
+// typedef struct 	s_map
+// {
 
 
 
 
 
 
-}				t_env;
+
+// }				t_map;
+
+// typedef struct 	s_env
+// {
+
+
+
+
+
+
+// }				t_env;
+#endif

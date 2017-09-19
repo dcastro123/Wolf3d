@@ -6,7 +6,7 @@
 #    By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/21 17:49:07 by dcastro-          #+#    #+#              #
-#    Updated: 2017/09/17 20:54:54 by dcastro-         ###   ########.fr        #
+#    Updated: 2017/09/18 18:29:10 by dcastro-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,12 @@ SRCS = srcs/main.c
 
 OBJ = $(SRCS:.c=.o)
 
-INC = -L libft/ -lft -L ./minilibx_macos -lmlx -framework OpenGL -framework AppKit
+INC = -L libft/ -lft -L ./resources -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	make -C minilibx_macos
+	make -C resources
 	make -C libft
 	$(CC) $(INC) $(OBJ) -o $(NAME)
 

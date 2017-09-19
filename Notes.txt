@@ -2,5 +2,45 @@ TO DO before 9/18/17:
 1. Figure out how maps should be created. custom or preset????? (DONE)
 2. Figure out how to parse and free at the same time (take fdf code????)
     - Write parser
+    - Store points
 3. read more tutorials on ray casting
 4. write main, write controls, write basic drawing algorithm to draw start of maze
+5. Setup window environment including player position, player height, player FOV, projection plane's dimension,
+and relationship between player and projection plane.
+	- Walls always 90 degree angle with floor
+	- walls made of cubes 64x64x64 (for testing purposes. always choose multiple of 2 for easier math)
+	- PLayer FOV set to 60 degrees (convert to radians maybe)
+	- Player height is 32 (or HALF OF WALL HEIGHT)
+	- wall height set to 64 (mostly just to test)
+	- player x,y grid coordinate set (1,2) or unit coordinate(96, 160)
+	- projection plane set to 320w 200h, (maybe find better plane later?)
+	- intial distance from player to screen set to 277 units
+	- calculate by taking half of projection plane and divide by tan(30)
+
+
+
+
+
+
+
+
+
+
+
+
+LODEV TUTORIAL:
+IN CPP, CONVERT TO C
+
+1. map is a 2D SQUARE GRID.
+2. each square value 1 which is no wall, or value > 1 is a wall with color as laid out in map1 file.
+3. For every x of the screen (i.e. for every vertical stripe of the screen), send out a ray that starts at the player location and with a direction that depends on both the player's looking direction, and the x-coordinate of the screen. Then, let this ray move forward on the 2D map, until it hits a map square that is a wall. If it hit a wall, calculate the distance of this hit point to the player, and use this distance to calculate how high this wall has to be drawn on the screen: the further away the wall, the smaller it's on screen, and the closer, the higher it appears to be. These are all 2D calculations on a 2D MAP. (create 2d array map)
+4. How to calculate when wall is hit: continuous calculation if the ray is in position of wall the loop stops and the distance is calculated between player and wall and then environment is redrawn. distance is calculated as stated above in other tutorial notes.
+5. each square on the "grid" is given width 1 (e->sq_width == 1) and along the wall the values are inbetween the integer values. step size calculated to be dependent on the distance to the next wall
+6. Algorithm used is called DDA(digital differential analysis)
+	- super fast. used to detect which square(wall) the line(ray) hits.
+	- use it to find wall and then stop the algo once wall is hit to redraw
+7. Raycaster normally use angles
+	- this is using vectors (how to do vectors in c????? structs???)
+	- bunch of math to calculate vectors and distance.......
+	- read up on rotation matrices
+8. figure out hooks....

@@ -38,6 +38,7 @@
 # define K_DWN
 # define K_LFT
 # define K_RGHT
+# define K_ESC
 
 // typedef struct 	s_map
 // {
@@ -72,7 +73,6 @@ typedef struct 	s_env
 	double	walldist;
 	double xrot;
 	double yrot;
-	double rotSpeed;
 	int		i;
 	int		size;
 	int		hit;

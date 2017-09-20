@@ -6,7 +6,7 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 20:44:17 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/19 04:16:14 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/20 05:43:40 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,20 @@
 # define WINDOW_H	720
 # define MAP_W		24
 # define MAP_H		24
+# define SKYBLUE
 # define WHITE
 # define BROWN
 # define GREEN
 # define BLUE
 # define ROT_SPEED	0.060
 # define MV_SPEED	0.12
-# define K_UP
-# define K_DWN
-# define K_LFT
-# define K_RGHT
-# define K_ESC
+# define K_LFT		123
+# define K_RGHT		124
+# define K_UP 		126
+# define K_DWN		125
+# define K_ESC		53
 
-// typedef struct 	s_map
-// {
-
-
-
-
-
-
-
-// }				t_map;
-
+int wolfmap[MAP_W][MAP_H];
 
 typedef struct 	s_env
 {
@@ -71,14 +62,20 @@ typedef struct 	s_env
 	double	ray_xdir;
 	double	ray_ydir;
 	double	walldist;
-	double xrot;
-	double yrot;
-	int		i;
-	int		size;
+	double	x_sidedist;
+	double	y_sidedist;
+	double	x_deltadist;
+	double	y_deltadist;
+	int 	start;
+	int 	end;
+	int 	x_step;
+	int 	y_step;
+	int 	line_h;
+	int 	side;
+	int		x;
 	int		hit;
 	int		bits;
 	int		size;
-	int		end;
 	int		map_xpos;
 	int		map_ypos;
 	int		up;
@@ -89,4 +86,20 @@ typedef struct 	s_env
 
 
 }				t_env;
+
+void	print_controls(void);
+void	setup_env(t_env *e);
+void	destroy_struct(t_env *e);
+void	init_window(t_env *e);
+int 	reset_img(t_env *e);
+
+int 	calc_movement(t_env *e);
+int 	calc_move(t_env *e);
+int 	calc_rotate(t_env *e);
+int 	krelease_hooks(int keycode, t_env *e);
+int		kpress_hooks(int keycode, t_env *e);
+int 	close_window_hook(t_env *e);
+
+void	raycast(t_env *e);
+void	set_hooks(t_env *e);
 #endif

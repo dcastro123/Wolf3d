@@ -6,75 +6,67 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 03:04:23 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/19 04:12:00 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/20 05:42:41 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-
-dda_hit(t_env *e)
+static  void  dda_hit(t_env *e)
 {
+	int hit;
+
+	hit = 0;
 	while (hit == 0)
-      {
-        //jump to next map square, OR in x-direction, OR in y-direction
-        if (sideDistX < sideDistY)
-        {
-          sideDistX += deltaDistX;
-          mapX += stepX;
-          side = 0;
-        }
-        else
-        {
-          sideDistY += deltaDistY;
-          mapY += stepY;
-          side = 1;
-        }
-        //Check if ray has hit a wall
-        if (worldMap[mapX][mapY] > 0) hit = 1;
+	{
+		if (e->x_sidedist < e->y_sidedist)
+		{
+			e->x_sidedist += e->x_deltadist;
+			e->map_xpos += e->x_step;
+			e->side= 0;
+		}
+		else
+		{
+			e->y_sidedist += e->y_deltadist;
+			e->map_ypos += e->y_step;
+			e->side = 1;
+		}
+		if (wolfmap[e->map_xpos][e->map_ypos] != 3)
+			hit = 1;
+		else
+			hit = 0;
+	}
 }
 
-dda_start(t_env *e)
+static  void  dda_start(t_env *e)
 {
-	double sideDistX;
-      double sideDistY;
-
-       //length of ray from one x or y-side to next x or y-side
-      double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-      double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
-      double perpWallDist;
-
-      //what direction to step in x or y-direction (either +1 or -1)
-      int stepX;
-      int stepY;
-
-      int hit = 0; //was there a wall hit?
-      int side; //was a NS or a EW wall hit?
-      //calculate step and initial sideDist
-      if (rayDirX < 0)
-      {
-        stepX = -1;
-        sideDistX = (rayPosX - mapX) * deltaDistX;
-      }
-      else
-      {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - rayPosX) * deltaDistX;
-      }
-      if (rayDirY < 0)
-      {
-        stepY = -1;
-        sideDistY = (rayPosY - mapY) * deltaDistY;
-      }
-      else
-      {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - rayPosY) * deltaDistY;
-      }
+	e->x_deltadist = sqrt(1 + (e->ray_ydir * e->ray_ydir) / (e->ray_xdir * e->ray_xdir));
+	e->y_deltadist = sqrt(1 + (e->ray_xdir * e->ray_xdir) / (e->ray_ydir * e->ray_ydir));
+	if (e->ray_xdir < 0)
+	{
+		e->x_step = -1;
+		e->x_sidedist = (e->ray_xpos - e->map_xpos) * e->x_deltadist;
+	}
+	else
+	{
+		e->x_step = 1;
+		e->x_sidedist = (e->map_xpos + 1.0 - e->ray_xpos) * e->x_deltadist;
+	}
+	if (e->ray_ydir < 0)
+	{
+		e->y_step = -1;
+		e->y_sidedist = (e->ray_ypos - e->map_ypos) * e->y_deltadist;
+	}
+	else
+	{
+		e->y_step = 1;
+		e->y_sidedist = (e->map_ypos + 1.0 - e->ray_ypos) * e->y_deltadist;
+	}
 }
-ray_start(t_env *e, int width)
+
+static  void  ray_start(t_env *e)
 {
-	e->camera_xpos = 2 * width / (double)WINDOW_W - 1;
+	e->camera_xpos = 2 * e->x / (double)WINDOW_W - 1;
 	e->ray_xpos = e->x_pos;
 	e->ray_ypos = e->y_pos;
 	e->ray_xdir = e->x_dirvec + e->plane_xpos * e->camera_xpos;
@@ -83,122 +75,26 @@ ray_start(t_env *e, int width)
 	e->map_ypos = (int)e->ray_ypos;
 	dda_start(e);
 	dda_hit(e);
-	      //Calculate distance projected on camera direction (oblique distance will give fisheye effect!)
-    e->side == 0 ? e->walldist = (mapX - rayPosX + (1 - stepX) / 2) / rayDirX :
-    				e->walldist = (mapY - rayPosY + (1 - stepY) / 2) / rayDirY;
-	double cameraX = 2 * x / double(w) - 1; //x-coordinate in camera space
-    double rayPosX = posX;
-    double rayPosY = posY;
-      double rayDirX = dirX + planeX * cameraX;
-      double rayDirY = dirY + planeY * cameraX;
-      //which box of the map we're in
-      int mapX = int(rayPosX);
-      int mapY = int(rayPosY);
-
-      //length of ray from current position to next x or y-side
-      double sideDistX;
-      double sideDistY;
-
-       //length of ray from one x or y-side to next x or y-side
-      double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-      double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
-      double perpWallDist;
-
-      //what direction to step in x or y-direction (either +1 or -1)
-      int stepX;
-      int stepY;
-
-      int hit = 0; //was there a wall hit?
-      int side; //was a NS or a EW wall hit?
-      //calculate step and initial sideDist
-      if (rayDirX < 0)
-      {
-        stepX = -1;
-        sideDistX = (rayPosX - mapX) * deltaDistX;
-      }
-      else
-      {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - rayPosX) * deltaDistX;
-      }
-      if (rayDirY < 0)
-      {
-        stepY = -1;
-        sideDistY = (rayPosY - mapY) * deltaDistY;
-      }
-      else
-      {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - rayPosY) * deltaDistY;
-      }
+	if (e->side == 0)
+		e->walldist = (e->map_xpos - e->ray_xpos + (1 - e->x_step) / 2) / e->ray_xdir;
+	else
+		e->walldist = (e->map_ypos - e->ray_ypos + (1 - e->y_step) / 2) / e->ray_ydir;
 }
 
 void	raycast(t_env *e)
 {
-	e->i = 0;
-	while (e->i++ < WINDOW_W)
+	e->x = 0;
+	while (e->x++ < WINDOW_W)
 	{
-		ray_start(e, e->i);
-		//Calculate height of line to draw on screen
-      int lineHeight = (int)(h / perpWallDist);
-
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + h / 2;
-      if(drawStart < 0)drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2;
-      if(drawEnd >= h)drawEnd = h - 1;
-      draw(e->i, );
-
+		ray_start(e);
+		e->line_h = (int)(WINDOW_H / e->walldist);
+		e->start = -e->line_h / 2 + WINDOW_H / 2;
+		if(e->start < 0)
+			e->start = 0;
+		e->end = e->line_h / 2 + WINDOW_H / 2;
+		if(e->end >= WINDOW_H)
+			e->end = WINDOW_H - 1;
+		// draw_ray(e);
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	mlx_put_image_to_window(e->mlx, e->win, e->image, 0, 0);
 }

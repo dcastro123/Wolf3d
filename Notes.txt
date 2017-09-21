@@ -253,3 +253,35 @@ int main(int /*argc*/, char */*argv*/[])
     }
   }
 }
+
+
+DRAW
+void	pixel_to_img(t_img *img_data, int x, int y, int color)
+{
+	int p;
+
+	if (x < 0 || y < 0 || x >= img_data->width || y >= img_data->height)
+		return ;
+	p = (x * 4) + (y * img_data->size_line);
+	img_data->data[p] = color & 0xFF;
+	img_data->data[++p] = (color >> 8) & 0xFF;
+	img_data->data[++p] = (color >> 16) & 0xFF;
+}
+
+void		draw_line(t_env *env)
+{
+	int d;
+	int tex_y;
+	int color;
+
+	while (++env->wolf->y < env->wolf->draw_end)
+	{
+		d = env->wolf->y * 256 - env->height * 128 + env->wolf->line_len * 128;
+		tex_y = ((d * 32) / env->wolf->line_len) / 256;
+		color = env->textures[env->wolf->tex_num]
+			[32 * tex_y + env->wolf->tex_x];
+		if (env->wolf->side == 1)
+			color = (color >> 1) & 8355711;
+		pixel_to_img(env->img_data, env->wolf->x, env->wolf->y, color);
+	}
+}

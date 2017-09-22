@@ -6,7 +6,7 @@
 #    By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/21 17:49:07 by dcastro-          #+#    #+#              #
-#    Updated: 2017/09/20 05:29:30 by dcastro-         ###   ########.fr        #
+#    Updated: 2017/09/20 20:13:51 by dcastro-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = wolf3d
 
 CC = gcc -Wall -Werror -Wextra
 
-SRCS = srcs/main.c srcs/hooks.c srcs/init.c srcs/ray.c
+SRCS = srcs/main.c srcs/hooks.c srcs/init.c srcs/ray.c srcs/draw.c
 
 OBJ = $(SRCS:.c=.o)
 

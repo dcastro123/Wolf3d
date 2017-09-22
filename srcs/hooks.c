@@ -6,65 +6,66 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 03:04:33 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/20 05:43:28 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:31:48 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/wolf3d.h"
 
-int 	calc_move(t_env *e)
+int		calc_move(t_env *e)
 {
-	int	x_temp;
-	int	y_temp;
+	int	x_utemp;
+	int	y_utemp;
+	int	x_dtemp;
+	int	y_dtemp;
 
-	x_temp = (int)(e->x_pos + e->x_dirvec * MV_SPEED);
-	y_temp = (int)(e->y_pos + e->y_dirvec * MV_SPEED);
+	x_utemp = (int)(e->x_pos + e->x_dirvec * MV_SPEED);
+	y_utemp = (int)(e->y_pos + e->y_dirvec * MV_SPEED);
+	x_dtemp = (int)(e->x_pos - e->x_dirvec * MV_SPEED);
+	y_dtemp = (int)(e->y_pos - e->y_dirvec * MV_SPEED);
 	if (e->up == 1)
 	{
-		if (wolfmap[x_temp][(int)(e->y_pos)] == 0)
+		if (g_wolfmap[x_utemp][(int)(e->y_pos)] == 3)
 			e->x_pos += e->x_dirvec * MV_SPEED;
-		if (wolfmap[(int)(e->x_pos)][y_temp] == 0)
+		if (g_wolfmap[(int)(e->x_pos)][y_utemp] == 3)
 			e->y_pos += e->y_dirvec * MV_SPEED;
 	}
 	if (e->down == 1)
 	{
-		if (wolfmap[x_temp][(int)(e->y_pos)] == 0)
+		if (g_wolfmap[x_dtemp][(int)(e->y_pos)] == 3)
 			e->x_pos -= e->x_dirvec * MV_SPEED;
-		if (wolfmap[(int)(e->x_pos)][y_temp] == 0)
+		if (g_wolfmap[(int)(e->x_pos)][y_dtemp] == 3)
 			e->y_pos -= e->y_dirvec * MV_SPEED;
 	}
 	return (0);
 }
 
-int 	calc_rotate(t_env *e)
+int		calc_rotate(t_env *e)
 {
+	double x_dirtemp;
+	double x_planetemp;
+
+	x_dirtemp = e->x_dirvec;
 	if (e->left == 1)
 	{
-		double x_dirtemp;
-		double x_planetemp;
-
-		x_dirtemp = e->x_dirvec;
-
-		e->x_dirvec = e->x_dirvec * cos(ROT_SPEED) - e->y_dirvec * sin(ROT_SPEED);
-		e->y_dirvec = x_dirtemp * sin(ROT_SPEED) + e->y_dirvec * cos(ROT_SPEED);
-		x_planetemp= e->plane_xpos;
-		e->plane_xpos = e->plane_xpos * cos(ROT_SPEED) - e->plane_ypos * sin(ROT_SPEED);
-		e->plane_ypos = x_planetemp * sin(ROT_SPEED) + e->plane_ypos * cos(ROT_SPEED);
+		e->x_dirvec = VEC_X_ROTLEFT(e->x_dirvec, e->y_dirvec);
+		e->y_dirvec = VEC_Y_ROTLEFT(x_dirtemp, e->y_dirvec);
+		x_planetemp = e->plane_xpos;
+		e->plane_xpos = VEC_X_ROTLEFT(e->plane_xpos, e->plane_ypos);
+		e->plane_ypos = VEC_Y_ROTLEFT(x_planetemp, e->plane_ypos);
 	}
 	if (e->right == 1)
 	{
-		double x_dirtemp = e->x_dirvec;
-		double x_planetemp = e->plane_xpos;
-
-		e->x_dirvec = e->x_dirvec * cos(-ROT_SPEED) - e->y_dirvec * sin(-ROT_SPEED);
-		e->y_dirvec = x_dirtemp * sin(-ROT_SPEED) + e->y_dirvec * cos(-ROT_SPEED);
-		e->plane_xpos = e->plane_xpos * cos(-ROT_SPEED) - e->plane_ypos * sin(-ROT_SPEED);
-		e->plane_ypos = x_planetemp * sin(-ROT_SPEED) + e->plane_ypos * cos(-ROT_SPEED);
+		e->x_dirvec = VEC_X_ROTRIGHT(e->x_dirvec, e->y_dirvec);
+		e->y_dirvec = VEC_Y_ROTRIGHT(x_dirtemp, e->y_dirvec);
+		x_planetemp = e->plane_xpos;
+		e->plane_xpos = VEC_X_ROTRIGHT(e->plane_xpos, e->plane_ypos);
+		e->plane_ypos = VEC_Y_ROTRIGHT(x_planetemp, e->plane_ypos);
 	}
 	return (0);
 }
 
-int 	krelease_hooks(int keycode, t_env *e)
+int		krelease_hooks(int keycode, t_env *e)
 {
 	if (keycode == K_UP)
 		e->up = 0;
@@ -79,7 +80,7 @@ int 	krelease_hooks(int keycode, t_env *e)
 	return (0);
 }
 
-int	kpress_hooks(int keycode, t_env *e)
+int		kpress_hooks(int keycode, t_env *e)
 {
 	if (keycode == K_UP)
 		e->up = 1;
@@ -90,14 +91,18 @@ int	kpress_hooks(int keycode, t_env *e)
 	else if (keycode == K_RGHT)
 		e->right = 1;
 	else if (keycode == K_ESC)
-		destroy_struct(e);
+		destroy_everything(e);
 	return (0);
 }
 
-int 	calc_movement(t_env *e)
+int		calc_movement(t_env *e)
 {
-	calc_move(e);
-	calc_rotate(e);
-	reset_img(e);
+	if ((int)(e->x_pos + e->x_dirvec * MV_SPEED) < WINDOW_W &&\
+		(int)(e->y_pos + e->y_dirvec * MV_SPEED) < WINDOW_H)
+	{
+		calc_move(e);
+		calc_rotate(e);
+		reset_img(e);
+	}
 	return (0);
 }

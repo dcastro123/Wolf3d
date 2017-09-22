@@ -6,7 +6,7 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 20:44:17 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/21 17:25:36 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:45:56 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@
 
 # define SKYBLUE	0x87ceeb
 # define WHITE		0xf8f8ff
+# define YELLOW		0xffff00
 # define BROWN		0x8b4513
+# define ORANGE		0xcd8500
 # define GREEN		0x228b22
 # define BLUE		0x80
 # define RED 		0xcd0000

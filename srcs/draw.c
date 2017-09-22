@@ -6,7 +6,7 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 03:05:37 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/21 17:26:37 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/21 17:45:47 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static	unsigned int	get_color(t_env *e)
 	unsigned int color;
 
 	if (g_wolfmap[e->map_xpos][e->map_ypos] == 1)
-		color = WHITE;
+		color = YELLOW;
 	else if (g_wolfmap[e->map_xpos][e->map_ypos] == 2)
-		color = GREEN;
+		color = ORANGE;
 	else if (g_wolfmap[e->map_xpos][e->map_ypos] == 6)
 		color = RED;
 	else if (g_wolfmap[e->map_xpos][e->map_ypos] == 8)
@@ -41,7 +41,7 @@ void					draw_bg(t_env *e)
 	}
 	while (i < (e->size * WINDOW_H))
 	{
-		e->data[i / 4] = BROWN;
+		e->data[i / 4] = 0x6e8b3d;
 		i++;
 	}
 }

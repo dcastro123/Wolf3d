@@ -6,7 +6,7 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 20:44:17 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/21 17:45:56 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/23 22:41:35 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define WINDOW_H	720
 # define MAP_W		24
 # define MAP_H		24
-# define ROT_SPEED	0.025
+# define ROT_SPEED	0.030
 # define MV_SPEED	0.08
 
 # define VEC_X_ROTLEFT(x, y)	x * cos(ROT_SPEED) - y * sin(ROT_SPEED)
@@ -37,11 +37,12 @@
 # define VEC_Y_ROTRIGHT(x, y)	x * sin(-ROT_SPEED) + y * cos(-ROT_SPEED)
 
 # define SKYBLUE	0x87ceeb
+# define PURPLE		0x9370db
 # define WHITE		0xf8f8ff
 # define YELLOW		0xffff00
-# define BROWN		0x8b4513
+# define BROWN		0x865E0E
 # define ORANGE		0xcd8500
-# define GREEN		0x228b22
+# define GREEN		0x6e8b3d
 # define BLUE		0x80
 # define RED 		0xcd0000
 # define BLACK		0x0

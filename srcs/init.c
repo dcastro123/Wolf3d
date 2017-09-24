@@ -6,7 +6,7 @@
 /*   By: dcastro- <dcastro-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 03:56:55 by dcastro-          #+#    #+#             */
-/*   Updated: 2017/09/21 17:21:32 by dcastro-         ###   ########.fr       */
+/*   Updated: 2017/09/23 22:16:51 by dcastro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	destroy_everything(t_env *e)
 {
 	mlx_destroy_window(e->mlx, e->win);
-	ft_bzero(e, sizeof(t_env));
 	exit(0);
 }
 
@@ -31,8 +30,9 @@ int		reset_img(t_env *e)
 
 void	setup_env(t_env *e)
 {
-	e->x_pos = 5;
-	e->y_pos = 5;
+	e->side = 0;
+	e->x_pos = 22;
+	e->y_pos = 12;
 	e->x_dirvec = -1;
 	e->y_dirvec = 0;
 	e->camera_xpos = 0;
